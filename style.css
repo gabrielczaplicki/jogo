@@ -1,0 +1,50 @@
+body {
+	font-family: Arial, sans-serif;
+	text-align: center;
+	margin: 0;
+}
+
+h1 {
+	margin: 30px 0;
+}
+
+.scoreboard {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(10, 1fr);
+	grid-template-rows: repeat(10, 1fr);
+	gap: 1px;
+	width: 500px;
+	height: 500px;
+	margin: 0 auto;
+	background-color: #ddd;
+}
+
+.cell {
+	background-color: #fff;
+	border: 1px solid #ddd;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 24px;
+	color: #333;
+}
+
+.player {
+	background-color: green;
+	color: #fff;
+}
+
+.treasure {
+	background-color: yellow;
+}
+
+.enemy {
+	background-color: red;
+}

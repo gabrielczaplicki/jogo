@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escolha a Opção de Pagamento</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+            max-width: 1000px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .box {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+            max-width: 45%;
+            width: 100%;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .custom-select {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .custom-select select {
+            display: none; /* Esconde o select original */
+        }
+
+        .select-selected {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .select-selected:after {
+            content: "▼";
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .select-items div {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-bottom: 1px solid #ddd;
+            padding: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .select-items div:hover {
+            background-color: #e0f7ff;
+        }
+
+        .select-items {
+            position: absolute;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+            z-index: 99;
+            display: none;
+        }
+
+        .select-active .select-items {
+            display: block;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #276bff;
+            border-radius: 4px;
+            background-color: #276bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #4983ff;
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="box" id="box1">
+            <h2>Escolha a Opção de Valores:</h2>
+            <div class="input-group">
+                <label for="opcaoPagamento">Opção de Valores:</label>
+                <div class="custom-select">
+                    <div class="select-selected">Preço Fixo CT</div>
+                    <div class="select-items select-hide">
+                        <div data-value="precoFixo" data-url="PREÇOFIXOCT.html">Preço Fixo CT</div>
+                        <div data-value="porcentagemFixa" data-url="PREÇOFIXOPRISEME.HTML">Porcentagem Fixa CT</div>
+                        <div data-value="segundoSemestre" data-url="SEMPREÇOFIXO.HTML">Segundo Semestre Fixo</div>
+                        <div data-value="EAD" data-url="EAD.html">Dois Valores</div>
+                    </div>
+                </div>
+            </div>
+            <button onclick="redirecionar('box1')">Selecionar</button>
+        </div>
+
+        <div class="box" id="box2">
+            <h2>Escolha a Opção de Finalização:</h2>
+            <div class="input-group">
+                <label for="opcaoPagamentoFinalizacao">Opção de Finalização:</label>
+                <div class="custom-select">
+                    <div class="select-selected">Preço Fixo CT</div>
+                    <div class="select-items select-hide">
+                        <div data-value="precoFixo" data-url="Finalização.html">Preço Fixo CT</div>
+                        <div data-value="porcentagemFixa" data-url="PorcentagemFixaCT.html">Porcentagem Fixa CT</div>
+                        <div data-value="segundoSemestre" data-url="FinalizaçãoSegundoSemestre.html">Segundo Semestre Fixo</div>
+                        <div data-value="EAD" data-url="FinalizaçãoDoisValores.html">Dois Valores</div>
+                    </div>
+                </div>
+            </div>
+            <button onclick="redirecionar('box2')">Selecionar</button>
+        </div>
+    </div>
+
+    <script>
+        // Abre e fecha o menu suspenso personalizado
+        document.querySelectorAll('.select-selected').forEach(function(select) {
+            select.addEventListener('click', function() {
+                this.parentElement.classList.toggle('select-active');
+            });
+        });
+
+        // Atualiza o valor selecionado e fecha o menu
+        document.querySelectorAll('.select-items div').forEach(function(item) {
+            item.addEventListener('click', function() {
+                var selected = this.parentElement.previousElementSibling;
+                selected.innerHTML = this.innerHTML;
+                selected.parentElement.setAttribute('data-value', this.getAttribute('data-value'));
+                selected.parentElement.classList.remove('select-active');
+            });
+        });
+
+        // Fecha o menu quando clicar fora dele
+        window.addEventListener('click', function(e) {
+            if (![...document.querySelectorAll('.custom-select')].some(select => select.contains(e.target))) {
+                document.querySelectorAll('.custom-select').forEach(select => select.classList.remove('select-active'));
+            }
+        });
+
+        // Redireciona para a URL baseada na seleção
+        function redirecionar(boxId) {
+            const selectedValue = document.querySelector(`#${boxId} .custom-select`).getAttribute('data-value');
+            const selectedItem = [...document.querySelectorAll(`#${boxId} .select-items div`)].find(item => item.getAttribute('data-value') === selectedValue);
+            const urlDestino = selectedItem ? selectedItem.getAttribute('data-url') : '#';
+
+            if (urlDestino !== '#') {
+                window.location.href = urlDestino;
+            } else {
+                alert('Por favor, selecione uma opção válida.');
+            }
+        }
+    </script>
+
+</body>
+</html>

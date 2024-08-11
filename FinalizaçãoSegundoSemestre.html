@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação de Curso - Nova Nota</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        input {
+            width: calc(100% - 22px);
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: none;
+        }
+
+        button#gerarNota {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        button#gerarNota:hover {
+            background-color: #45a049;
+        }
+
+        button#copiarNota {
+            background-color: #007BFF;
+            color: white;
+            margin-top: 10px;
+        }
+
+        button#copiarNota:hover {
+            background-color: #0056b3;
+        }
+
+        .output {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 20px;
+            text-align: left;
+            position: relative;
+        }
+
+        #copiarMensagem {
+            display: none;
+            color: white;
+            background-color: #007BFF;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Confirmação dos Detalhes do Curso - Nova Nota</h2>
+        
+        <div class="input-group">
+            <label for="cursoNota">Curso:</label>
+            <input type="text" id="cursoNota" placeholder="Digite o curso" oninput="toUpperCaseInput(this)">
+        </div>
+
+        <div class="input-group">
+            <label for="metodologiaNota">Metodologia:</label>
+            <input type="text" id="metodologiaNota" placeholder="Digite a metodologia" oninput="toUpperCaseInput(this)">
+        </div>
+
+        <div class="input-group">
+            <label for="valorMensalidadeNota">Valor Integral da Mensalidade:</label>
+            <input type="text" id="valorMensalidadeNota" placeholder="Digite o valor integral da mensalidade">
+        </div>
+
+        <div class="input-group">
+            <label for="valorOutrasMensalidadesNota">Valor das Outras 3 Mensalidades:</label>
+            <input type="text" id="valorOutrasMensalidadesNota" placeholder="Digite o valor das outras 3 mensalidades">
+        </div>
+
+        <div class="input-group">
+            <label for="valorMensalidade7Nota">Porcentagem de Desconto a partir da 7ª Mensalidade:</label>
+            <input type="text" id="valorMensalidade7Nota" placeholder="Digite a porcentagem de desconto">
+        </div>
+
+        <div class="input-group">
+            <label for="diluicaoMensalNota">Diluição por Mês Aderido:</label>
+            <input type="text" id="diluicaoMensalNota" placeholder="Digite a diluição por mês">
+        </div>
+
+        <button id="gerarNota" onclick="gerarNota()">Gerar Nota</button>
+        <button id="copiarNota" onclick="copiarTexto()">Copiar Texto</button>
+
+        <div class="output" id="notaOutput"></div>
+        <div id="copiarMensagem">Texto copiado com sucesso!</div>
+    </div>
+
+    <script>
+        function toUpperCaseInput(input) {
+            input.value = input.value.toUpperCase();
+        }
+
+        function formatarValor(valor) {
+            valor = parseFloat(valor.replace(',', '.')).toFixed(2);
+            return valor.replace('.', ',');
+        }
+
+        function gerarNota() {
+            let curso = document.getElementById('cursoNota').value;
+            let metodologia = document.getElementById('metodologiaNota').value;
+            let valorMensalidade = document.getElementById('valorMensalidadeNota').value;
+            let valorOutrasMensalidades = document.getElementById('valorOutrasMensalidadesNota').value;
+            let valorMensalidade7 = document.getElementById('valorMensalidade7Nota').value;
+            let diluicaoMensal = document.getElementById('diluicaoMensalNota').value;
+
+            curso = curso.toUpperCase();
+            metodologia = metodologia.toUpperCase();
+            valorMensalidade = formatarValor(valorMensalidade);
+            valorOutrasMensalidades = formatarValor(valorOutrasMensalidades);
+            valorMensalidade7 = parseInt(valorMensalidade7); // Remove casas decimais
+            diluicaoMensal = formatarValor(diluicaoMensal);
+
+            let textoNota = `
+                O curso que você escolheu é ${curso} na metodologia ${metodologia}😊 O valor integral da sua mensalidade é R$ ${valorMensalidade}, sendo as suas 3 primeiras mensalidades no valor de R$49,00 (aderido à DIS) e as outras 3 no valor de R$ ${valorOutrasMensalidades} + a diluição por mês aderido. A partir da 7ª mensalidade terá ${valorMensalidade7}% + a diluição por mês aderido, sendo esse desconto durante todo o curso. E lembrando que para garantir a oferta é necessário o pagamento até a data de vencimento.<br><br>
+                Alguns documentos necessários para finalizar sua inscrição:<br>
+                • DAR O ACEITE NO CONTRATO DE PRESTAÇÃO DE SERVIÇOS EDUCACIONAIS.<br>
+                • CPF FRENTE E VERSO NO MESMO ARQUIVO<br>
+                • RG FRENTE E VERSO NO MESMO ARQUIVO<br>
+                • HISTÓRICO OU CERTIDÃO DE CONCLUSÃO DO ENSINO MÉDIO
+            `;
+
+            document.getElementById('notaOutput').innerHTML = textoNota;
+        }
+
+        function copiarTexto() {
+            const output = document.getElementById('notaOutput');
+            const range = document.createRange();
+            range.selectNode(output);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand('copy');
+            document.getElementById('copiarMensagem').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('copiarMensagem').style.display = 'none';
+            }, 2000);
+        }
+    </script>
+
+</body>
+</html>

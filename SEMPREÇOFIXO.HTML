@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preço Fixo - Curso</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        input, select {
+            width: calc(100% - 22px);
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+        .horizontal-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #horario {
+            display: none;
+            width: calc(50% - 10px);
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        button#gerarTexto {
+            border: 1px solid #4CAF50;
+            background-color: #4CAF50;
+            color: white;
+        }
+        button#gerarTexto:hover {
+            background-color: #45a049;
+        }
+        button#copiarTexto {
+            border: 1px solid #007BFF;
+            background-color: #007BFF;
+            color: white;
+            margin-top: 10px;
+        }
+        button#copiarTexto:hover {
+            background-color: #0056b3;
+        }
+        .output {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 20px;
+            text-align: left;
+            position: relative;
+        }
+        #copiarMensagem {
+            display: none;
+            color: white;
+            background-color: #007BFF;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="PAGINAPRINCIPAL.HTML" class="back-button">Voltar</a>
+
+
+    <div class="container">
+        <h2>Preencha os Dados do Curso - Preço Fixo</h2>
+
+        <div class="input-group">
+            <label for="curso">Curso:</label>
+            <input type="text" id="curso" placeholder="Digite o curso" oninput="toUpperCaseInput(this)">
+        </div>
+
+        <div class="input-group">
+            <label for="duracao">Duração:</label>
+            <input type="text" id="duracao" placeholder="Digite a duração">
+        </div>
+
+        <div class="input-group horizontal-group">
+            <div>
+                <label for="metodologia">Metodologia:</label>
+                <select id="metodologia" onchange="mostrarHorarios()">
+                    <option value="">Selecione a metodologia</option>
+                    <option value="PRESENCIAL">PRESENCIAL</option>
+                    <option value="AO VIVO">AO VIVO</option>
+                    <option value="SEMIPRESENCIAL">SEMIPRESENCIAL</option>
+                    <option value="EAD">EAD</option>
+                    <option value="FLEX">FLEX</option>
+                </select>
+            </div>
+            
+            <div id="horario">
+                <label for="horarioSelecionado">Horário:</label>
+                <select id="horarioSelecionado">
+                    <option value="MANHÃ">MANHÃ</option>
+                    <option value="TARDE">TARDE</option>
+                    <option value="NOITE">NOITE</option>
+                    <option value="MANHÃ/TARDE">MANHÃ/TARDE</option>
+                    <option value="TARDE/NOITE">TARDE/NOITE</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="polo">Polo:</label>
+            <input type="text" id="polo" placeholder="Digite o polo" oninput="toUpperCaseInput(this)">
+        </div>
+
+        <div class="input-group">
+            <label for="valorSemestre">Valor do Primeiro Semestre:</label>
+            <input type="text" id="valorSemestre" placeholder="Digite o valor do primeiro semestre">
+        </div>
+
+        <div class="input-group">
+            <label for="valorDescontoSemestre">Valor Com Desconto Primeiro Semestre:</label>
+            <input type="text" id="valorDescontoSemestre" placeholder="Digite o valor com desconto primeiro semestre">
+        </div>
+
+        <div class="input-group">
+            <label for="percentualDesconto">Percentual de Desconto:</label>
+            <input type="text" id="percentualDesconto" placeholder="Digite o percentual de desconto">
+        </div>
+
+        <div class="input-group">
+            <label for="valorFinalDesconto">Valor Mensal Com Desconto Dilúido:</label>
+            <input type="text" id="valorFinalDesconto" placeholder="Digite o valor diluído por mês">
+        </div>
+
+        <button id="gerarTexto" onclick="gerarTexto()">Gerar Texto</button>
+        <button id="copiarTexto" onclick="copiarTexto()">Copiar Texto</button>
+
+        <div class="output" id="output"></div>
+        <div id="copiarMensagem">Texto copiado com sucesso!</div>
+
+        <script>
+            function mostrarHorarios() {
+                const metodologia = document.getElementById('metodologia').value;
+                const horarioDiv = document.getElementById('horario');
+
+                if (metodologia === 'PRESENCIAL' || metodologia === 'AO VIVO' || metodologia === 'SEMIPRESENCIAL') {
+                    horarioDiv.style.display = 'block';
+                } else {
+                    horarioDiv.style.display = 'none';
+                }
+            }
+
+            function toUpperCaseInput(input) {
+                input.value = input.value.toUpperCase();
+            }
+
+            function formatarValor(valor) {
+                valor = parseFloat(valor.replace(',', '.')).toFixed(2);
+                return valor.replace('.', ',');
+            }
+
+            function gerarTexto() {
+                let curso = document.getElementById('curso').value;
+                const duracao = document.getElementById('duracao').value;
+                let metodologia = document.getElementById('metodologia').value;
+                let polo = document.getElementById('polo').value;
+                let valorSemestre = document.getElementById('valorSemestre').value;
+                let valorDescontoSemestre = document.getElementById('valorDescontoSemestre').value;
+                let percentualDesconto = document.getElementById('percentualDesconto').value;
+                let valorFinalDesconto = document.getElementById('valorFinalDesconto').value;
+                const horarioSelecionado = document.getElementById('horarioSelecionado')?.value || '—';
+
+                curso = curso.toUpperCase();
+                metodologia = metodologia.toUpperCase();
+                polo = polo.toUpperCase();
+                valorSemestre = formatarValor(valorSemestre);
+                valorDescontoSemestre = formatarValor(valorDescontoSemestre);
+                percentualDesconto = percentualDesconto || '—';
+                valorFinalDesconto = formatarValor(valorFinalDesconto);
+
+                let textoGerado = `
+                    ✏️ CURSO: ${curso}<br>
+                    🎒 DURAÇÃO: ${duracao}<br>
+                    ⏰ METODOLOGIA: ${metodologia}<br>
+                    🏫 POLO: ${polo}<br><br>
+                    💵 O valor da sua mensalidade ficará de: R$${valorSemestre} Por: aproximadamente R$${valorDescontoSemestre} no primeiro semestre e após ${percentualDesconto}%, sendo esta porcentagem até o final do curso.<br><br>
+                    ✨ Ah e temos um grande benefício para iniciar seu curso agora! Que é a DIS onde você pode pagar a primeira ou até as três primeiras mensalidades no valor de R$49,00 cada, sendo o restante retirado do valor integral e diluído ao longo do seu curso no valor por volta de R$${valorFinalDesconto} por mês aderido.<br><br>
+                    ✨ Garanta o desconto pagando até a data do seu vencimento!
+                `;
+
+                document.getElementById('output').innerHTML = textoGerado;
+            }
+
+            function copiarTexto() {
+                const output = document.getElementById('output');
+                const range = document.createRange();
+                range.selectNode(output);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+                document.execCommand('copy');
+                window.getSelection().removeAllRanges();
+
+                const mensagem = document.getElementById('copiarMensagem');
+                mensagem.style.display = 'block';
+                setTimeout(() => {
+                    mensagem.style.display = 'none';
+                }, 2000);
+            }
+        </script>
+    </div>
+
+</body>
+</html>
